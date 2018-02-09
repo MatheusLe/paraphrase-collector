@@ -1,15 +1,21 @@
 #  Script for extracting tweets by link
 #  To run this script run `python scripts/extract_tweets_by_link.py -days=1` from the project root folder
+__author__ = 'Matheus Leal'
+__version__ = '1.0'
 import sys
 sys.path.append('./common')
 
 from twitter import TwitterAPI
-from utils import get_last_day, check_data_directory
+from utils import get_last_day, check_data_directory, get_run_key
 
 reload(sys)  # Reload for update the encoding
 sys.setdefaultencoding('UTF8')
 
 if __name__ == '__main__':
+   old_stdout = sys.stdout
+   check_data_directory('./logs');
+   log_file = open("./logs/log_extract_tweets_by_link_" + get_run_key() + ".log ","w")
+   sys.stdout = log_file
    print('Starting script - Extracting tweets by link\n')
    #  Opens a connection object with the Twitter API
    api = TwitterAPI()
@@ -19,7 +25,7 @@ if __name__ == '__main__':
 
    date_key = selected_day.date().strftime("%Y-%m-%d")
 
-   check_data_directory();
+   check_data_directory('./data');
 
    try:
       with open('./data/extracted-links-' + date_key + '.txt') as f:
@@ -40,3 +46,5 @@ if __name__ == '__main__':
       print("Error on_data: %s" % str(e))
 
    print('\nFinished script - Extracting tweets by link')
+   sys.stdout = old_stdout
+   log_file.close()

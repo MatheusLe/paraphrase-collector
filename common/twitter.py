@@ -1,3 +1,5 @@
+__author__ = 'Matheus Leal'
+__version__ = '1.0'
 import tweepy
 from tweepy import OAuthHandler
 from utils import pre_process_text

@@ -13,13 +13,15 @@ def get_last_day():
     last_retrieval_day = datetime.today() - timedelta(days=args.days)
     return last_retrieval_day
 
-def check_data_directory():
-    directory = './data'
+def check_data_directory(directory):
     try:
         os.makedirs(directory)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
+
+def get_run_key():
+   return datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
 
 def pre_process_text(text):
    text = HTMLParser.HTMLParser().unescape(text)
